@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const fs = require('fs');
-const db = require('../Develop/db/db.json')
+// const db = require('./Develop/db/db.json')
 
 router.get('/api/notes', (req, res) => {
-    fs.readFile(db, (err, data) => {
+    fs.readFile('./Develop/db/db.json', (err, data) => {
         if (err) throw err;
         var note = JSON.parse(data);
         res.json(note);
@@ -11,7 +11,7 @@ router.get('/api/notes', (req, res) => {
 });
 
 router.post('/api/notes', (req, res) => {
-    fs.readFile(db, (err, data) => {
+    fs.readFile('./Develop/db/db.json', (err, data) => {
         if (err) throw err;
 
         var note = JSON.parse(data);
@@ -22,11 +22,10 @@ router.post('/api/notes', (req, res) => {
         };
 
         note.push(newNote);
-        res.json(newNote);
-        fs.writeFile(db, JSON.stringify(note), (err) => {
+        fs.writeFile('./Develop/db/db.json', JSON.stringify(note), (err) => {
             if (err) throw err;
 
-            res.send('successfully added');
+            res.json(newNote);
         })
     });
 });
